@@ -1,0 +1,327 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Primary colors from WordPress theme */
+  --color-primary: #d65050;
+  --color-primary-dark: #c74040;
+  --color-primary-light: #e67070;
+  
+  /* Secondary/Dark colors */
+  --color-secondary: #443f3f;
+  --color-secondary-dark: #333030;
+  
+  /* Background colors */
+  --color-bg-dark: #1c1c1c;
+  --color-bg-darker: #252525;
+  --color-bg-footer: #1c1c1c;
+  --color-bg-footer-widgets: #252525;
+  
+  /* Text colors */
+  --color-text: #47425d;
+  --color-text-light: #767676;
+  --color-text-muted: #666666;
+  
+  /* Call-to-action green (phone button) */
+  --color-cta: #009900;
+  --color-cta-dark: #007700;
+  
+  /* White/Light */
+  --color-white: #ffffff;
+  --color-light: #f7f7f7;
+  
+  /* Border colors */
+  --color-border: #dbdbdb;
+  --color-border-light: #ebebeb;
+  
+  /* Overlay */
+  --color-overlay: rgba(0, 0, 0, 0.7);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text);
+  background: var(--color-white);
+}
+
+/* Headings - Raleway font from WordPress theme */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
+  margin: 10px 0 24px;
+  line-height: 1.1;
+}
+
+h1 { font-size: 52px; }
+h2 { font-size: 42px; }
+h3 { font-size: 32px; }
+h4 { font-size: 25px; }
+h5 { font-size: 20px; }
+h6 { font-size: 18px; }
+
+/* Links */
+a {
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+a:hover,
+a:focus {
+  color: var(--color-secondary);
+  text-decoration: none;
+  outline: 0;
+}
+
+/* Strong text */
+strong {
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+/* Buttons - Sydney theme style */
+.btn-primary,
+.roll-button {
+  position: relative;
+  display: inline-block;
+  font-family: "Raleway", sans-serif;
+  font-size: 13px;
+  line-height: 24px;
+  font-weight: 700;
+  padding: 12px 35px;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  text-transform: uppercase;
+  border-radius: 3px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.btn-primary:hover,
+.roll-button:hover {
+  background-color: transparent;
+  color: var(--color-primary);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: var(--color-white);
+}
+
+.btn-secondary:hover {
+  background-color: transparent;
+  color: var(--color-secondary);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.btn-cta {
+  background-color: var(--color-cta);
+  border-color: var(--color-cta);
+}
+
+.btn-cta:hover {
+  background-color: var(--color-cta-dark);
+  border-color: var(--color-cta-dark);
+  color: var(--color-white);
+}
+
+/* Widget titles with underline from WordPress theme */
+.widget-title {
+  text-align: center;
+  margin-bottom: 50px;
+  position: relative;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+}
+
+.widget-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 50px;
+  height: 1px;
+  margin-left: -25px;
+  background-color: var(--color-primary);
+}
+
+/* Icon boxes */
+.roll-icon-box {
+  text-align: center;
+}
+
+.roll-icon-box .icon {
+  text-align: center;
+  width: 70px;
+  height: 70px;
+  line-height: 75px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background-color: var(--color-light);
+}
+
+.roll-icon-box .icon i,
+.roll-icon-box .icon svg {
+  font-size: 26px;
+  color: var(--color-primary);
+}
+
+/* Service cards */
+.service-card {
+  margin-bottom: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Overlay for hero sections */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+  background-color: var(--color-bg-dark);
+}
+
+/* Hero text styles */
+.hero-title {
+  color: var(--color-white);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.hero-subtitle {
+  color: var(--color-white);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  font-weight: 300;
+}
+
+/* Footer styles from WordPress theme */
+.footer-widgets {
+  background-color: var(--color-bg-footer-widgets);
+}
+
+.site-footer {
+  background-color: var(--color-bg-footer);
+}
+
+/* Form inputs from WordPress theme */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
+  color: var(--color-text-light);
+  background-color: #fafafa;
+  border: 1px solid var(--color-border);
+  height: 50px;
+  padding: 4px 20px;
+  border-radius: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+textarea {
+  height: 120px;
+  padding: 15px 20px;
+}
+
+/* Blog post cards */
+.blog-post {
+  margin-bottom: 30px;
+}
+
+.blog-post .entry-title {
+  margin: 15px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.blog-post .entry-title a {
+  color: var(--color-secondary);
+}
+
+.blog-post .entry-title a:hover {
+  color: var(--color-primary);
+}
+
+/* Tags */
+.tags-links a {
+  display: inline-block;
+  background-color: var(--color-light);
+  padding: 8px 20px;
+  color: var(--color-text);
+  margin: 0 5px 5px 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.tags-links a:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* Responsive typography */
+@media (max-width: 780px) {
+  h1 { font-size: 32px; }
+  h2 { font-size: 28px; }
+  h3 { font-size: 22px; }
+  h4 { font-size: 18px; }
+  h5 { font-size: 16px; }
+  h6 { font-size: 14px; }
+}
+
+/* Animation for hero section */
+@keyframes fadeInRightBig {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeInRight {
+  animation: fadeInRightBig 1s ease-in-out;
+}

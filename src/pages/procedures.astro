@@ -1,0 +1,96 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { SITE } from '@config/site';
+import { getCollection, render } from 'astro:content';
+
+const procedures = await getCollection('procedures');
+const sortedProcedures = procedures.sort((a, b) => a.data.order - b.data.order);
+
+// Render each procedure's content
+const proceduresWithContent = await Promise.all(
+  sortedProcedures.map(async (procedure) => {
+    const { Content } = await render(procedure);
+    return { ...procedure, Content };
+  })
+);
+---
+
+<BaseLayout title={`Процедури | ${SITE.title}`} description="Вижте процедурите, които предлагаме във Физиотерапевтичен Център 'Вита'">
+  <!-- Hero Section -->
+  <section class="relative min-h-[50vh] flex items-center bg-cover bg-center" style="background-image: url('/images/backgrounds/burgas-bridge.jpg');">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="max-w-3xl py-20">
+        <span class="inline-block px-4 py-2 text-sm font-medium text-white bg-[#d65050] rounded-full mb-6">
+          Нашите услуги
+        </span>
+        <h1 class="text-4xl sm:text-5xl font-bold mb-6 text-white font-heading">
+          Процедури
+        </h1>
+        <p class="text-xl text-white/90">
+          Широка гама от терапевтични процедури с най-съвременни технологии.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Procedures Grid -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {proceduresWithContent.map((procedure) => (
+          <div class="group bg-white rounded-2xl border border-slate-200 hover:border-[#d65050]/30 overflow-hidden hover:shadow-xl transition-all duration-300">
+            {procedure.data.image && (
+              <div class="h-48 overflow-hidden">
+                <img 
+                  src={procedure.data.image} 
+                  alt={procedure.data.title} 
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+            )}
+            <div class="p-8">
+              <div class="w-16 h-16 flex items-center justify-center text-4xl bg-[#f5f5f5] rounded-2xl mb-6 group-hover:scale-110 transition-transform">
+                {procedure.data.icon}
+              </div>
+              <h3 class="text-xl font-bold text-[#443f3f] mb-3">{procedure.data.title}</h3>
+              <div class="text-[#47425d] mb-6 prose prose-sm">
+                <procedure.Content />
+              </div>
+              <ul class="space-y-2">
+                {procedure.data.features.map((feature) => (
+                  <li class="flex items-center text-sm text-[#47425d]">
+                    <svg class="w-4 h-4 text-[#d65050] mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-[#f5f5f5]">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-[#d65050] rounded-3xl p-8 md:p-12 text-center">
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-4 font-heading">
+          Нуждаете се от консултация?
+        </h2>
+        <p class="text-white/90 mb-8 max-w-xl mx-auto">
+          Нашите специалисти ще ви помогнат да изберете най-подходящата терапия за вашите нужди.
+        </p>
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-[#d65050] bg-white hover:bg-gray-100 rounded-xl shadow-lg transition-all"
+        >
+          Свържете се с нас
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

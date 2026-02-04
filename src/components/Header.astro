@@ -1,0 +1,103 @@
+---
+import { NAVIGATION, SITE } from '@config/site';
+
+interface Props {
+  currentPathname: string;
+}
+
+const { currentPathname } = Astro.props;
+const isActiveLink = (href: string): boolean => href === currentPathname;
+---
+
+<header id="site-header" class="fixed top-0 z-50 w-full transition-all duration-300 bg-black/90 backdrop-blur-md">
+  <nav class="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
+    <!-- Logo -->
+    <div class="flex items-center">
+      <a href="/" class="flex items-center space-x-3 group">
+        <img 
+          src="/favicon-192.png" 
+          alt="Вита Бургас" 
+          class="h-12 w-auto"
+        />
+        <span class="text-2xl font-bold text-white font-['Raleway']">
+          Вита
+        </span>
+      </a>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden lg:flex lg:items-center lg:space-x-1">
+      {NAVIGATION.map((item) => {
+        const isActive = isActiveLink(item.href);
+        return (
+          <a
+            href={item.href}
+            class={`px-4 py-2 text-sm font-medium font-['Raleway'] transition-all ${
+              isActive 
+                ? 'text-[#d65050]' 
+                : 'text-white hover:text-[#d65050]'
+            }`}
+          >
+            {item.name}
+          </a>
+        );
+      })}
+    </div>
+
+    <!-- CTA Button -->
+    <div class="hidden lg:flex lg:items-center lg:space-x-4">
+      <a
+        href={`tel:${SITE.phone}`}
+        class="inline-flex items-center px-6 py-2.5 text-sm font-bold text-white bg-[#009900] hover:bg-[#007700] rounded transition-all font-['Raleway'] uppercase tracking-wide"
+      >
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+        </svg>
+        {SITE.phone}
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn" class="lg:hidden p-2 rounded text-white hover:bg-white/10">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile Navigation -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-[#1c1c1c]">
+    <div class="container mx-auto px-4 py-4 space-y-1">
+      {NAVIGATION.map((item) => {
+        const isActive = isActiveLink(item.href);
+        return (
+          <a
+            href={item.href}
+            class={`block px-6 py-3 text-sm font-medium font-['Raleway'] border-t border-[#252525] ${
+              isActive 
+                ? 'text-[#d65050]' 
+                : 'text-white hover:text-[#d65050]'
+            }`}
+          >
+            {item.name}
+          </a>
+        );
+      })}
+      <a
+        href={`tel:${SITE.phone}`}
+        class="block px-6 py-3 text-sm font-bold text-[#009900] border-t border-[#252525]"
+      >
+        📞 {SITE.phone}
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  menuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+</script>

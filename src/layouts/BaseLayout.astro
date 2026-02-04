@@ -7,14 +7,26 @@ import { SITE } from '@config/site';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  keywords?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article';
+  publishedDate?: string;
 }
 
 const { 
   title = SITE.title, 
-  description = SITE.description 
+  description = SITE.description,
+  image = '/images/backgrounds/burgas-bridge.jpg',
+  keywords = 'физиотерапия, рехабилитация, Бургас, масаж, кинезитерапия, лазертерапия',
+  noindex = false,
+  type = 'website',
+  publishedDate,
 } = Astro.props;
 
 const currentPathname = Astro.url.pathname;
+const canonicalURL = new URL(currentPathname, SITE.url).href;
+const ogImageURL = new URL(image, SITE.url).href;
 ---
 
 <!doctype html>
@@ -39,16 +51,61 @@ const currentPathname = Astro.url.pathname;
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content={SITE.author} />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow" />}
     
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="bg_BG" />
+    <meta property="og:site_name" content={SITE.title} />
+    {publishedDate && <meta property="article:published_time" content={publishedDate} />}
     
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MedicalBusiness",
+      "name": SITE.title,
+      "description": SITE.description,
+      "url": SITE.url,
+      "telephone": SITE.phone,
+      "email": SITE.email,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": SITE.address,
+        "addressLocality": "Бургас",
+        "addressCountry": "BG"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "42.4833",
+        "longitude": "27.4667"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "sameAs": [
+        "https://www.facebook.com/BurgasVita/",
+        "https://www.instagram.com/vitaburgas/"
+      ]
+    })} />
   </head>
   <body class="flex min-h-screen flex-col bg-white text-neutral-900 antialiased">
     <Header currentPathname={currentPathname} />

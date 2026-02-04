@@ -1,0 +1,9 @@
+# Robots.txt for vitaburgas.com
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://vitaburgas.com/sitemap-index.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1

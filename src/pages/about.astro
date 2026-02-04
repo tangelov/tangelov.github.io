@@ -26,7 +26,11 @@ const pageTitle = aboutPage?.data?.title || 'За нас';
 const pageDescription = aboutPage?.data?.description || "Научете повече за екипа на Физиотерапевтичен Център 'Вита' в Бургас";
 ---
 
-<BaseLayout title={`${pageTitle} | ${SITE.title}`} description={pageDescription}>
+<BaseLayout 
+  title={`${pageTitle} | ${SITE.title}`} 
+  description={pageDescription}
+  keywords="физиотерапевтичен център Вита, екип специалисти, физикална медицина Бургас, рехабилитация специалисти"
+>
   <!-- Hero Section -->
   <section class="relative min-h-[50vh] flex items-center bg-cover bg-center" style="background-image: url('/images/backgrounds/burgas-bridge.jpg');">
     <div class="absolute inset-0 bg-black/60"></div>

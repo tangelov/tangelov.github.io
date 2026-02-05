@@ -105,11 +105,11 @@ const pageDescription = aboutPage?.data?.description || "Научете пове
         {teamWithContent.map((member) => (
           <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow text-center group">
             {member.data.image ? (
-              <div class="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden group-hover:scale-110 transition-transform">
+              <div class="w-32 h-36 mx-auto mb-6 rounded-xl overflow-hidden group-hover:scale-110 transition-transform">
                 <img src={member.data.image} alt={member.data.name} class="w-full h-full object-cover" />
               </div>
             ) : (
-              <div class="w-24 h-24 mx-auto mb-6 flex items-center justify-center text-5xl bg-[#f5f5f5] rounded-full group-hover:scale-110 transition-transform">
+              <div class="w-32 h-36 mx-auto mb-6 flex items-center justify-center text-5xl bg-[#f5f5f5] rounded-xl group-hover:scale-110 transition-transform">
                 {member.data.icon || '👤'}
               </div>
             )}

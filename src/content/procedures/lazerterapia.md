@@ -4,8 +4,6 @@ icon: "🔆"
 order: 2
 image: "/images/procedures/laser.jpg"
 features:
-  - "Лазертерапия"
-  - "HIL Лазер (High Intensity Laser)"
   - "Противовъзпалително действие"
   - "Обезболяващ ефект"
   - "Стимулиране на регенерацията"

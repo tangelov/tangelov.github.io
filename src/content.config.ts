@@ -12,14 +12,21 @@ const teamCollection = defineCollection({
   }),
 });
 
+const procedureItem = z.object({
+  name: z.string(),
+  description: z.string().optional(),
+  icon: z.string().optional(),
+  details: z.string().optional(),
+});
+
 const proceduresCollection = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/procedures' }),
   schema: z.object({
     title: z.string(),
     icon: z.string(),
     order: z.number(),
-    features: z.array(z.string()),
     image: z.string().optional(),
+    items: z.array(procedureItem),
   }),
 });
 

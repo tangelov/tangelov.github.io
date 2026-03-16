@@ -1,18 +1,10 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { SITE } from '@config/site';
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 
 const procedures = await getCollection('procedures');
 const sortedProcedures = procedures.sort((a, b) => a.data.order - b.data.order);
-
-// Render each procedure's content
-const proceduresWithContent = await Promise.all(
-  sortedProcedures.map(async (procedure) => {
-    const { Content } = await render(procedure);
-    return { ...procedure, Content };
-  })
-);
 ---
 
 <BaseLayout 
@@ -38,43 +30,60 @@ const proceduresWithContent = await Promise.all(
     </div>
   </section>
 
-  <!-- Procedures Grid -->
+  <!-- Procedures by Category -->
   <section class="py-20 bg-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {proceduresWithContent.map((procedure) => (
-          <div class="group bg-white rounded-2xl border border-slate-200 hover:border-[#d65050]/30 overflow-hidden hover:shadow-xl transition-all duration-300">
-            {procedure.data.image && (
-              <div class="h-48 overflow-hidden">
-                <img 
-                  src={procedure.data.image} 
-                  alt={procedure.data.title} 
-                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+      {sortedProcedures.map((category) => (
+        <div>
+          <!-- Category Header -->
+          <div class="flex items-center gap-4 mb-10 pb-4 border-b-2 border-[#d65050]/20">
+            {category.data.image && (
+              <div class="hidden md:block w-24 h-16 rounded-xl overflow-hidden flex-shrink-0">
+                <img src={category.data.image} alt={category.data.title} class="w-full h-full object-cover" />
               </div>
             )}
-            <div class="p-8">
-              <div class="w-16 h-16 flex items-center justify-center text-4xl bg-[#f5f5f5] rounded-2xl mb-6 group-hover:scale-110 transition-transform">
-                {procedure.data.icon}
+            <div>
+              <div class="flex items-center gap-3">
+                <span class="text-3xl">{category.data.icon}</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-[#443f3f] font-heading">{category.data.title}</h2>
               </div>
-              <h2 class="text-xl font-bold text-[#443f3f] mb-3">{procedure.data.title}</h2>
-              <div class="text-[#47425d] mb-6 prose prose-sm">
-                <procedure.Content />
-              </div>
-              <ul class="space-y-2">
-                {procedure.data.features.map((feature) => (
-                  <li class="flex items-center text-sm text-[#47425d]">
-                    <svg class="w-4 h-4 text-[#d65050] mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
-        ))}
-      </div>
+          <!-- Individual Procedure Cards -->
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {category.data.items.map((item, i) => {
+              const cardId = `${category.id}-${i}`;
+              return (
+                <div class="bg-white rounded-2xl border border-slate-200 hover:border-[#d65050]/40 hover:shadow-lg transition-all duration-300 p-6 flex flex-col">
+                  <h3 class="text-lg font-bold text-[#443f3f] mb-2">{item.name}</h3>
+                  {item.description && (
+                    <p class="text-sm text-[#47425d] leading-relaxed mb-4">{item.description}</p>
+                  )}
+                  {item.details && (
+                    <>
+                      <div id={`d-${cardId}`} class="hidden mt-1 mb-4">
+                        <div class="text-sm text-[#47425d] whitespace-pre-line border-t border-slate-100 pt-3">
+                          {item.details}
+                        </div>
+                      </div>
+                      <button
+                        onclick="toggleDetail(this)"
+                        data-target={`d-${cardId}`}
+                        class="mt-auto flex items-center gap-1 text-sm font-medium text-[#d65050] hover:text-[#b83e3e] transition-colors"
+                      >
+                        <span data-label>Виж повече</span>
+                        <svg data-arrow class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                    </>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   </section>
 
@@ -97,4 +106,15 @@ const proceduresWithContent = await Promise.all(
       </div>
     </div>
   </section>
+<script is:inline>
+  function toggleDetail(btn) {
+    const id = btn.getAttribute('data-target');
+    const content = document.getElementById(id);
+    const label = btn.querySelector('[data-label]');
+    const arrow = btn.querySelector('[data-arrow]');
+    const isHidden = content.classList.toggle('hidden');
+    label.textContent = isHidden ? 'Виж повече' : 'Виж по-малко';
+    arrow.style.transform = isHidden ? '' : 'rotate(180deg)';
+  }
+</script>
 </BaseLayout>
